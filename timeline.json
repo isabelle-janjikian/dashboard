@@ -55,5 +55,17 @@
     "cache_creation_tokens": 15646,
     "cache_read_tokens": 569886,
     "_init_key": "e2bfe0f1-46ae-487b-9953-0fd40034bd68:2026-07-05T23:28:15"
+  },
+  {
+    "date": "06/07/2026",
+    "time": "01:02",
+    "project": "automatisation-email-brouillon",
+    "action": "Initialisation du projet (/init, CLAUDE.md) : Lecture du cahier des charges, Création de la structure du projet et du code, Vérifications",
+    "tokens": 937838,
+    "input_tokens": 18,
+    "output_tokens": 8554,
+    "cache_creation_tokens": 16654,
+    "cache_read_tokens": 912612,
+    "_init_key": "63cf61cc-e2f4-43bf-8646-0ef7471a2862:2026-07-06T00:58:08"
   }
 ]

@@ -37,6 +37,32 @@ h1 {
   font-size: 2rem;
   margin-bottom: 24px;
 }
+.nav-links {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-link {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.15s ease;
+}
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.34);
+}
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f2d50;
+}
 .glass-card {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(19px);
@@ -96,6 +122,10 @@ h1 {
     max-width: 100%;
     text-align: left;
     margin: 10px 0 0;
+  }
+  .nav-link {
+    padding: 7px 14px;
+    font-size: 0.82rem;
   }
 }
 
@@ -319,6 +349,10 @@ h1 {
 </div>
 
 <div class="app-shell">
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active">Dashboard usage</a>
+    <a href="applications.html" class="nav-link">Mes applications</a>
+  </div>
   <h1>Dashboard Claude</h1>
 
   <div class="glass-card">

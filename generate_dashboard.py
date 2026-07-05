@@ -29,12 +29,17 @@ def load_entries():
     return data
 
 
+def save_entries(entries):
+    """Réécrit timeline.json avec la liste d'entrées donnée."""
+    with open(TIMELINE_PATH, "w", encoding="utf-8") as f:
+        json.dump(entries, f, ensure_ascii=False, indent=2)
+
+
 def append_entry(entry):
     """Ajoute une entrée à timeline.json et réécrit le fichier. Retourne la liste mise à jour."""
     entries = load_entries()
     entries.append(entry)
-    with open(TIMELINE_PATH, "w", encoding="utf-8") as f:
-        json.dump(entries, f, ensure_ascii=False, indent=2)
+    save_entries(entries)
     return entries
 
 

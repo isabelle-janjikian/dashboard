@@ -10,5 +10,11 @@
     "type": "Outil",
     "description": "Dashboard glassmorphism qui visualise l'usage (tokens, coût estimé) des sessions Claude Code, par projet.",
     "date": "05/07/2026"
+  },
+  {
+    "name": "automatisation-email-brouillon",
+    "type": "Automatisation",
+    "description": "Cloud Function GCP (Python) qui détecte les emails de création de dossier reçus sur Gmail et crée automatiquement un brouillon de demande d'entretien pour le bénéficiaire identifié.",
+    "date": "06/07/2026"
   }
 ]

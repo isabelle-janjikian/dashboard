@@ -754,6 +754,7 @@ function renderGrid() {
     <div class="app-card">
       <div class="app-thumb" style="background: linear-gradient(135deg, ${colorForApp(app)}, rgba(255,255,255,0.15));">
         <span class="app-thumb-initials">${initials(app.name)}</span>
+        ${app.image ? `<img class="app-thumb-img" src="${app.image}" alt="" onerror="this.style.display='none'">` : ''}
       </div>
       <div class="app-card-body">
         <h3 class="app-title">${app.name}</h3>
@@ -819,10 +820,19 @@ _APPS_CSS = """
   flex-direction: column;
 }
 .app-thumb {
+  position: relative;
   height: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+.app-thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .app-thumb-initials {
   font-size: 2.2rem;
@@ -882,6 +892,9 @@ _APPS_CSS = """
   justify-content: center;
   padding: 20px;
   z-index: 100;
+}
+.modal-overlay[hidden] {
+  display: none;
 }
 .modal-card {
   position: relative;

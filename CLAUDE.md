@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Dashboard glassmorphism statique qui visualise l'usage (tokens, coût estimé) de sessions Claude Code, par projet. `generate_dashboard.py` lit `timeline.json` et génère `index.html` (page autonome, sans dépendance externe).
 
-Le même script génère aussi `applications.html` ("Mes applications Claude Code") à partir de `apps.json` : une grille de cards (une par application réalisée avec Claude Code — les dépôts vides/greenfield ne sont pas listés), filtrable par type et par nom de projet, avec un popup "Détails" (description, date de réalisation). Les vignettes sont des placeholders générés (dégradé + initiales), pas de vraies images ni de lien GitHub. Les deux pages se référencent mutuellement via une barre de navigation.
+Le même script génère aussi `applications.html` ("Mes applications Claude Code") à partir de `apps.json` : une grille de cards (une par application réalisée avec Claude Code — les dépôts vides/greenfield ne sont pas listés), filtrable par type et par nom de projet, avec un popup "Détails" (description, date de réalisation, pas de lien GitHub). Par défaut, la vignette de chaque card est un placeholder généré (dégradé + initiales). Un champ optionnel `"image"` dans une entrée d'`apps.json` (chemin relatif ou URL) affiche une vraie image à la place sur la card (pas dans le popup) ; si l'image ne charge pas, le placeholder généré reste visible en secours. Les deux pages se référencent mutuellement via une barre de navigation.
 
 ## Commandes
 

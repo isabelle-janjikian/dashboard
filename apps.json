@@ -17,5 +17,11 @@
     "type": "Automatisation",
     "description": "Cloud Function GCP (Python) qui détecte les emails de création de dossier reçus sur Gmail et crée automatiquement un brouillon de demande d'entretien pour le bénéficiaire identifié.",
     "date": "06/07/2026"
+  },
+  {
+    "name": "landing-automatisation",
+    "type": "Projet",
+    "description": "Landing page statique générée par un script Python maison (pas de moteur de templates type Jinja, pas de framework JS, pas de bundler). Style visuel : glassmorphism (dégradés, `backdrop-filter`, formes organiques en CSS pur — jamais d'images externes).",
+    "date": "06/07/2026"
   }
 ]

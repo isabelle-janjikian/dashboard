@@ -70,14 +70,14 @@
   },
   {
     "date": "06/07/2026",
-    "time": "12:43",
+    "time": "12:46",
     "project": "dashboard",
-    "action": "Initialisation du projet (/init, CLAUDE.md) : Documente l'Ã©chec silencieux de load_entries/load_apps dans CLAUDE.md ; Documente la prioritÃ© de l'intention dÃ©clarÃ©e dans le rÃ©sumÃ© d'action /init",
-    "tokens": 2596251,
-    "input_tokens": 44,
-    "output_tokens": 7781,
-    "cache_creation_tokens": 22185,
-    "cache_read_tokens": 2566241,
+    "action": "Initialisation du projet (/init, CLAUDE.md) : Documente l'Ã©chec silencieux de load_entries/load_apps dans CLAUDE.md ; Documente la prioritÃ© de l'intention dÃ©clarÃ©e dans le rÃ©sumÃ© d'action /init ; Met Ã  jour le ...",
+    "tokens": 4418828,
+    "input_tokens": 72,
+    "output_tokens": 10420,
+    "cache_creation_tokens": 154664,
+    "cache_read_tokens": 4253672,
     "_init_key": "e50cb151-411d-4b90-87f3-0c80733ceed7:2026-07-06T12:33:01"
   }
 ]

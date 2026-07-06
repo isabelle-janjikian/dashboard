@@ -1239,11 +1239,6 @@ __BACKGROUND__
         <textarea class="form-textarea" id="contact-message" name="message" rows="6" required></textarea>
         <p class="form-hint">Décrivez votre demande avec le plus de détails possible afin de faciliter son traitement.</p>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="contact-piece-jointe">Pièce jointe (facultatif)</label>
-        <input class="form-input form-file" type="file" id="contact-piece-jointe" name="piece_jointe">
-        <p class="form-hint">Ajoutez une capture d'écran ou un fichier si cela peut aider à comprendre votre demande.</p>
-      </div>
       <button type="submit" class="btn-submit">📨 Envoyer le message</button>
       <p id="contact-error" class="form-error" hidden>Une erreur est survenue lors de l'envoi. Merci de réessayer ou de vérifier votre connexion.</p>
     </form>
@@ -1266,7 +1261,7 @@ __BACKGROUND__
     <ul class="info-list">
       <li>Consultez la rubrique <a href="aide.html">Questions fréquentes</a> pour voir si la réponse s'y trouve déjà.</li>
       <li>Si vous signalez un problème, indiquez les étapes permettant de le reproduire.</li>
-      <li>Si possible, joignez une capture d'écran du message d'erreur.</li>
+      <li>Si possible, décrivez précisément le message d'erreur affiché.</li>
     </ul>
     <p>Ces informations permettront de traiter votre demande plus rapidement.</p>
   </div>
@@ -1373,10 +1368,6 @@ _CONTACT_CSS = """
 .form-textarea {
   resize: vertical;
   min-height: 120px;
-}
-.form-file {
-  background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
 }
 .form-select {
   cursor: pointer;

@@ -211,11 +211,6 @@ h1 {
   cursor: not-allowed;
   transform: none;
 }
-.form-success {
-  margin: 0;
-  color: #0f2d50;
-  font-weight: 600;
-}
 .form-error {
   margin: 0;
   color: #a3271f;
@@ -227,10 +222,66 @@ h1 {
   color: #1c2b3a;
   line-height: 1.6;
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 25, 45, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+.modal-overlay[hidden] {
+  display: none;
+}
+.modal-card {
+  position: relative;
+  max-width: 420px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #0f2d50;
+  cursor: pointer;
+}
+.modal-success-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+}
+.modal-success-icon {
+  font-size: 2.4rem;
+  margin-bottom: 4px;
+}
+.modal-title {
+  margin: 0;
+  color: #0f2d50;
+  font-size: 1.3rem;
+}
+.modal-description {
+  color: #1c2b3a;
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
 @media (max-width: 640px) {
   .btn-submit {
     align-self: stretch;
     text-align: center;
+  }
+  .modal-card {
+    max-width: 100%;
   }
 }
 
@@ -305,9 +356,19 @@ h1 {
         <p class="form-hint">Ajoutez une capture d'écran ou un fichier si cela peut aider à comprendre votre demande.</p>
       </div>
       <button type="submit" class="btn-submit">📨 Envoyer le message</button>
-      <p id="contact-success" class="form-success" hidden>Votre message a bien été envoyé. Merci !</p>
       <p id="contact-error" class="form-error" hidden>Une erreur est survenue lors de l'envoi. Merci de réessayer ou de vérifier votre connexion.</p>
     </form>
+  </div>
+
+  <div id="success-modal" class="modal-overlay" hidden>
+    <div class="modal-card glass-card">
+      <button type="button" class="modal-close" id="success-modal-close" aria-label="Fermer">&times;</button>
+      <div class="modal-success-body">
+        <span class="modal-success-icon">📨</span>
+        <h2 class="modal-title">Message envoyé !</h2>
+        <p class="modal-description">Votre message a bien été envoyé. Merci pour votre retour !</p>
+      </div>
+    </div>
   </div>
 
   <div class="glass-card">
@@ -334,15 +395,27 @@ h1 {
 
 <script>
 const contactForm = document.getElementById('contact-form');
-const successMsg = document.getElementById('contact-success');
 const errorMsg = document.getElementById('contact-error');
 const submitBtn = contactForm.querySelector('.btn-submit');
+const successModal = document.getElementById('success-modal');
+const successModalClose = document.getElementById('success-modal-close');
+
+function closeSuccessModal() {
+  successModal.hidden = true;
+}
+
+successModalClose.addEventListener('click', closeSuccessModal);
+successModal.addEventListener('click', (e) => {
+  if (e.target === successModal) closeSuccessModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !successModal.hidden) closeSuccessModal();
+});
 
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!contactForm.reportValidity()) return;
 
-  successMsg.hidden = true;
   errorMsg.hidden = true;
   submitBtn.disabled = true;
 
@@ -354,7 +427,7 @@ contactForm.addEventListener('submit', async (e) => {
     });
 
     if (response.ok) {
-      successMsg.hidden = false;
+      successModal.hidden = false;
       contactForm.reset();
     } else {
       errorMsg.hidden = false;

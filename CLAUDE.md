@@ -6,17 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Dashboard glassmorphism statique qui visualise l'usage (tokens, coût estimé) de sessions Claude Code, par projet. `generate_dashboard.py` lit `timeline.json` et génère `index.html` (page autonome, sans dépendance externe).
 
-Le même script génère aussi `applications.html` ("Mes applications Claude Code") à partir de `apps.json` : une grille de cards (une par application réalisée avec Claude Code — les dépôts vides/greenfield ne sont pas listés), filtrable par type et par nom de projet, avec un popup "Détails" (description, date de réalisation, pas de lien GitHub). Par défaut, la vignette de chaque card est un placeholder généré (dégradé + initiales). Un champ optionnel `"image"` dans une entrée d'`apps.json` (chemin relatif ou URL) affiche une vraie image à la place sur la card (pas dans le popup) ; si l'image ne charge pas, le placeholder généré reste visible en secours. Les deux pages se référencent mutuellement via une barre de navigation.
+Le même script génère aussi `applications.html` ("Mes applications Claude Code") à partir de `apps.json` : une grille de cards (une par application réalisée avec Claude Code — les dépôts vides/greenfield ne sont pas listés), filtrable par type et par nom de projet, avec un popup "Détails" (description, date de réalisation, pas de lien GitHub). Par défaut, la vignette de chaque card est un placeholder généré (dégradé + initiales). Un champ optionnel `"image"` dans une entrée d'`apps.json` (chemin relatif ou URL) affiche une vraie image à la place sur la card (pas dans le popup) ; si l'image ne charge pas, le placeholder généré reste visible en secours.
+
+Le script génère enfin `aide.html` ("Centre d'aide") à partir de `help.json` : une liste de catégories (Prise en main, FAQ, Documentation technique, Contact), chacune avec ses questions/réponses affichées en accordéon, filtrable par catégorie et par recherche texte (sur la question et la réponse).
+
+Les trois pages se référencent mutuellement via une barre de navigation.
 
 ## Commandes
 
-Régénérer le dashboard et la page applications après une modification de `timeline.json` ou `apps.json` :
+Régénérer les trois pages après une modification de `timeline.json`, `apps.json` ou `help.json` :
 
 ```bash
 python generate_dashboard.py
 ```
 
-`load_entries()`/`load_apps()` avalent silencieusement toute erreur de lecture (JSON invalide, fichier absent) et retournent une liste vide — un `timeline.json`/`apps.json` corrompu produit donc un dashboard vide sans message d'erreur explicite (juste `(0 entrée(s))` en console). Vérifier la validité du JSON après une édition manuelle.
+`load_entries()`/`load_apps()`/`load_help()` avalent silencieusement toute erreur de lecture (JSON invalide, fichier absent) et retournent une liste vide — un `timeline.json`/`apps.json`/`help.json` corrompu produit donc une page vide sans message d'erreur explicite (juste `(0 entrée(s))` en console). Vérifier la validité du JSON après une édition manuelle.
 
 ## Alimentation de timeline.json
 
@@ -38,7 +42,9 @@ Dans tous les cas, la régénération locale de `index.html` ne suffit pas à me
 Pas de branches : on commit et pousse directement sur `master`. Le redéploiement Vercel est manuel :
 
 ```bash
-vercel --yes --scope isabelleweb13-gmailcoms-projects
+vercel --yes --prod --scope isabelleweb13-gmailcoms-projects
 ```
+
+Sans `--prod`, la commande crée un déploiement preview (`target: null`) qui ne touche pas l'alias de production.
 
 Le projet Vercel est `isabelleweb13-gmailcoms-projects/dashboard` (production : https://dashboard-self-pi-59.vercel.app).

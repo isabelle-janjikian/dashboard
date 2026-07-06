@@ -2,7 +2,7 @@
 
 Un dashboard "glassmorphism" léger qui visualise l'usage (tokens et coût estimé) de vos sessions Claude Code, projet par projet.
 
-![statique](https://img.shields.io/badge/build-python%20script-blue) ![licence](https://img.shields.io/badge/pages-1-lightgrey)
+![statique](https://img.shields.io/badge/build-python%20script-blue) ![licence](https://img.shields.io/badge/pages-3-lightgrey)
 
 ## Aperçu
 
@@ -10,16 +10,18 @@ Un dashboard "glassmorphism" léger qui visualise l'usage (tokens et coût estim
 - **Graphique** : total de tokens consommés par jour.
 - **Timeline** : détail de chaque action, regroupée par date, avec une jauge visuelle par entrée.
 - Filtrage par projet via un menu déroulant.
+- **Mes applications** : grille de cards des applications réalisées avec Claude Code, filtrable par type et par projet, avec popup de détails.
+- **Centre d'aide** : FAQ, guide d'utilisation, documentation technique et contact, filtrables par catégorie et par recherche texte.
 
 ## Fonctionnement
 
-- `timeline.json` contient la liste des entrées (date, heure, projet, action, tokens).
-- `generate_dashboard.py` lit ce fichier et génère `index.html`, une page autonome (HTML/CSS/JS inline, sans dépendance externe).
+- `timeline.json`, `apps.json` et `help.json` contiennent respectivement les données du dashboard usage, des applications et du centre d'aide.
+- `generate_dashboard.py` lit ces fichiers et génère trois pages autonomes : `index.html`, `applications.html` et `aide.html` (HTML/CSS/JS inline, sans dépendance externe).
 - Le coût est estimé à partir de tarifs par million de tokens (input, output, écriture cache, lecture cache), configurables en tête de `generate_dashboard.py`.
 
 ## Utilisation
 
-Régénérer le dashboard après une mise à jour de `timeline.json` :
+Régénérer les trois pages après une mise à jour de `timeline.json`, `apps.json` ou `help.json` :
 
 ```bash
 python generate_dashboard.py

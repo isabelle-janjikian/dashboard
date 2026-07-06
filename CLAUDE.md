@@ -10,7 +10,9 @@ Le même script génère aussi `applications.html` ("Mes applications Claude Cod
 
 Le script génère enfin `aide.html` ("Centre d'aide") à partir de `help.json` : une liste de catégories (Prise en main, FAQ, Documentation technique, Contact), chacune avec ses questions/réponses affichées en accordéon, filtrable par catégorie et par recherche texte (sur la question et la réponse).
 
-Les trois pages se référencent mutuellement via une barre de navigation.
+Le script génère aussi `contact.html` (page statique, pas de fichier JSON associé) : un formulaire (nom, email, objet en menu déroulant, message) qui envoie le message par `fetch` vers Formspree (`https://formspree.io/f/xnjkrakl`, destinataire isabelleweb13@gmail.com, objet fixe "Message via Dashboard Claude" via le champ caché `_subject`). Le succès affiche un popup/modal (pas un texte inline). **Pas de champ pièce jointe** : le plan Formspree gratuit rejette en bloc toute soumission contenant un fichier (`400 File Uploads Not Permitted`), ce qui faisait échouer l'envoi de tout le formulaire — ne pas le réintroduire sans passer sur une offre payante. Le skill `.claude/skills/page-contact` documente cette page.
+
+Les quatre pages se référencent mutuellement via une barre de navigation.
 
 ## Commandes
 

@@ -118,14 +118,14 @@
   },
   {
     "date": "06/07/2026",
-    "time": "15:12",
+    "time": "17:24",
     "project": "dashboard",
     "action": "ajoute une page de contact",
-    "tokens": 5043609,
-    "input_tokens": 74,
-    "output_tokens": 19177,
-    "cache_creation_tokens": 39229,
-    "cache_read_tokens": 4985129,
+    "tokens": 10548482,
+    "input_tokens": 140,
+    "output_tokens": 36266,
+    "cache_creation_tokens": 242183,
+    "cache_read_tokens": 10269893,
     "_init_key": "fd793e00-3e16-4089-b685-765babde92b4:2026-07-06T14:58:56"
   }
 ]

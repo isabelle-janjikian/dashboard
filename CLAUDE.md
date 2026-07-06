@@ -23,7 +23,7 @@ python generate_dashboard.py
 Un hook global (`~/.claude/hooks/log_init_complete.py`, déclenché sur `Stop` après un `/init`, hors de ce dépôt) alimente automatiquement `timeline.json` et régénère `index.html` en local — mais seulement pour les sessions `/init`. Il met à jour la même entrée au fil des tours d'un même `/init` (marqueur posé par `~/.claude/hooks/track_init_start.py`), et l'abandonne après 45 min d'inactivité.
 
 Le texte de l'`action` enregistrée suit cet ordre de priorité :
-1. **Intention déclarée par l'utilisateur** : si le tout premier message texte libre de la session a été capté par `~/.claude/hooks/save_session_intent.py` (hook global, hors de ce dépôt) et enregistré dans `.markers/{session_id}_intent.txt`, il est utilisé tel quel, sans reformulation.
+1. **Intention déclarée par l'utilisateur** : si le tout premier message texte libre de la session a été capté par `~/.claude/hooks/save_session_intent.py` (hook global `UserPromptSubmit`, hors de ce dépôt — se déclenche sur chaque message envoyé) et enregistré dans `.markers/{session_id}_intent.txt`, il est utilisé tel quel, sans reformulation. (`track_init_start.py`, lui, reste sur `UserPromptExpansion` avec vérification stricte interne, car cet événement ne se déclenche en pratique que pour l'invocation des commandes slash elles-mêmes.)
 2. **Titres des commits git** faits depuis le début du `/init` (dans le projet courant et dans ce dépôt dashboard), juxtaposés avec « ; ».
 3. **Dernier message de l'assistant** (comportement d'origine), en dernier recours.
 

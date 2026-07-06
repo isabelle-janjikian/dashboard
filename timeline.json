@@ -58,14 +58,14 @@
   },
   {
     "date": "06/07/2026",
-    "time": "01:08",
+    "time": "01:25",
     "project": "automatisation-email-brouillon",
-    "action": "Initialisation du projet (/init, CLAUDE.md) : C'est fait. Le dashboard est à jour et déployé en production : **https://dashboard-self-pi-59.vercel.app**  Récap : 1. Corrigé l'entrée `automatisation-email-brouillon` da...",
-    "tokens": 2225719,
-    "input_tokens": 40,
-    "output_tokens": 15361,
-    "cache_creation_tokens": 28535,
-    "cache_read_tokens": 2181783,
+    "action": "Initialisation du projet (/init, CLAUDE.md) : Ajoute l'entrée automatisation-email-brouillon au dashboard ; Ajoute automatisation-email-brouillon à la page applications",
+    "tokens": 5733315,
+    "input_tokens": 92,
+    "output_tokens": 33147,
+    "cache_creation_tokens": 50679,
+    "cache_read_tokens": 5649397,
     "_init_key": "63cf61cc-e2f4-43bf-8646-0ef7471a2862:2026-07-06T00:58:08"
   }
 ]

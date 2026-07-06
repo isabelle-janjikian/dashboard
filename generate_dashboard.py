@@ -51,6 +51,12 @@ def save_entries(entries):
         json.dump(entries, f, ensure_ascii=False, indent=2)
 
 
+def save_apps(apps):
+    """Réécrit apps.json avec la liste d'applications donnée."""
+    with open(APPS_PATH, "w", encoding="utf-8") as f:
+        json.dump(apps, f, ensure_ascii=False, indent=2)
+
+
 def append_entry(entry):
     """Ajoute une entrée à timeline.json et réécrit le fichier. Retourne la liste mise à jour."""
     entries = load_entries()

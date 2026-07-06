@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1c2b3a;
+  position: relative;
+  overflow-x: hidden;
+}
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(160deg, #5bc8f0 0%, #1f6fc2 100%);
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  filter: blur(2px);
+}
+.app-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 70px 80px;
+}
+h1 {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  font-size: 2rem;
+  margin-bottom: 24px;
+}
+.nav-links {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-link {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.15s ease;
+}
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.34);
+}
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f2d50;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(19px);
+  -webkit-backdrop-filter: blur(19px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 22px;
+  box-shadow: 0 12px 40px rgba(15, 45, 80, 0.25);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+}
+.empty-message {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin: 20px 0;
+}
+.app-credit {
+  position: fixed;
+  left: 16px;
+  bottom: 14px;
+  font-size: 0.7rem;
+  color: #ffffff;
+  opacity: 0.85;
+  z-index: 10;
+}
+.app-install-note {
+  position: fixed;
+  right: 16px;
+  bottom: 14px;
+  max-width: 240px;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-align: right;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 8px 12px;
+  z-index: 10;
+}
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 28px 16px 120px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .glass-card {
+    padding: 18px 16px;
+    border-radius: 18px;
+  }
+  .app-credit,
+  .app-install-note {
+    position: static;
+    max-width: 100%;
+    text-align: left;
+    margin: 10px 0 0;
+  }
+  .nav-link {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+
+.contact-intro h1 {
+  color: #0f2d50;
+  text-shadow: none;
+  font-size: 1.5rem;
+  margin: 0 0 12px;
+}
+.contact-lead {
+  color: #1c2b3a;
+  line-height: 1.6;
+  margin: 0;
+}
+.section-title {
+  margin: 0 0 18px;
+  color: #0f2d50;
+  font-size: 1.2rem;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-weight: 600;
+  color: #0f2d50;
+}
+.form-input,
+.form-textarea {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 0.95rem;
+  color: #0f2d50;
+  font-family: inherit;
+}
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.form-file {
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+.form-examples {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  color: #2c4a68;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.form-hint {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #2c4a68;
+}
+.btn-submit {
+  align-self: flex-start;
+  padding: 12px 28px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #ffb14d, #e2622a);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(226, 98, 42, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(226, 98, 42, 0.45);
+}
+.btn-submit:active {
+  transform: translateY(0);
+}
+.form-success {
+  margin: 0;
+  color: #0f2d50;
+  font-weight: 600;
+}
+.info-list {
+  margin: 10px 0;
+  padding-left: 20px;
+  color: #1c2b3a;
+  line-height: 1.6;
+}
+@media (max-width: 640px) {
+  .btn-submit {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="background">
+  <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="petal1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffe27a"/>
+        <stop offset="50%" stop-color="#ffb14d"/>
+        <stop offset="100%" stop-color="#e2622a"/>
+      </linearGradient>
+      <linearGradient id="petal2" x1="100%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#ffb14d"/>
+        <stop offset="100%" stop-color="#e2622a"/>
+      </linearGradient>
+    </defs>
+    <path d="M 1440 0 C 1100 100, 1000 350, 1250 550 C 1450 700, 1500 300, 1440 0 Z" fill="url(#petal1)" opacity="0.9"/>
+    <path d="M 0 900 C 250 750, 500 850, 450 650 C 400 450, 100 550, 0 900 Z" fill="url(#petal2)" opacity="0.92"/>
+    <path d="M 1440 900 C 1250 700, 950 800, 1050 650 C 1150 500, 1400 600, 1440 900 Z" fill="url(#petal1)" opacity="0.9"/>
+    <path d="M 0 0 C 150 200, 350 100, 250 -50 C 150 -150, -50 -100, 0 0 Z" fill="url(#petal2)" opacity="0.85"/>
+  </svg>
+</div>
+
+<div class="app-shell">
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Dashboard usage</a>
+    <a href="applications.html" class="nav-link">Mes applications</a>
+    <a href="aide.html" class="nav-link">Centre d'aide</a>
+    <a href="contact.html" class="nav-link active">Contact</a>
+  </div>
+
+  <div class="glass-card contact-intro">
+    <h1>Une question, une idée ou un problème ?</h1>
+    <p class="contact-lead">Si vous rencontrez une difficulté, souhaitez proposer une amélioration ou avez simplement une question concernant le dashboard, n'hésitez pas à contacter le développeur. Vos retours sont précieux et permettent de faire évoluer l'application au fil des versions.</p>
+  </div>
+
+  <div class="glass-card">
+    <h2 class="section-title">Formulaire de contact</h2>
+    <form id="contact-form" class="contact-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="contact-nom">Nom</label>
+        <input class="form-input" type="text" id="contact-nom" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-email">Adresse e-mail</label>
+        <input class="form-input" type="email" id="contact-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-objet">Objet</label>
+        <input class="form-input" type="text" id="contact-objet" name="objet" required>
+        <ul class="form-examples">
+          <li>Demande d'assistance</li>
+          <li>Signaler un bug</li>
+          <li>Proposition d'amélioration</li>
+          <li>Nouvelle fonctionnalité</li>
+          <li>Autre</li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-message">Votre message</label>
+        <textarea class="form-textarea" id="contact-message" name="message" rows="6" required></textarea>
+        <p class="form-hint">Décrivez votre demande avec le plus de détails possible afin de faciliter son traitement.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-piece-jointe">Pièce jointe (facultatif)</label>
+        <input class="form-input form-file" type="file" id="contact-piece-jointe" name="piece_jointe">
+        <p class="form-hint">Ajoutez une capture d'écran ou un fichier si cela peut aider à comprendre votre demande.</p>
+      </div>
+      <button type="submit" class="btn-submit">📨 Envoyer le message</button>
+      <p id="contact-success" class="form-success" hidden>Votre message a bien été pris en compte. Merci !</p>
+    </form>
+  </div>
+
+  <div class="glass-card">
+    <h2 class="section-title">Avant de nous contacter</h2>
+    <p>Pensez à vérifier les informations suivantes :</p>
+    <ul class="info-list">
+      <li>Consultez la rubrique <a href="aide.html">Questions fréquentes</a> pour voir si la réponse s'y trouve déjà.</li>
+      <li>Si vous signalez un problème, indiquez les étapes permettant de le reproduire.</li>
+      <li>Si possible, joignez une capture d'écran du message d'erreur.</li>
+    </ul>
+    <p>Ces informations permettront de traiter votre demande plus rapidement.</p>
+  </div>
+
+  <div class="glass-card">
+    <h2 class="section-title">Merci pour votre contribution</h2>
+    <p>Chaque retour contribue à améliorer le dashboard et à le rendre plus simple, plus rapide et plus agréable à utiliser. Merci de prendre le temps de partager votre expérience.</p>
+  </div>
+
+  
+  <p class="app-credit">Réalisé par IsabelleWeb13@</p>
+  <p class="app-install-note">Cette application peut être installée chez vous : copiez le dossier de scripts (README + install + hooks + dashboard).</p>
+
+</div>
+
+<script>
+const contactForm = document.getElementById('contact-form');
+const successMsg = document.getElementById('contact-success');
+
+contactForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!contactForm.reportValidity()) return;
+
+  const formData = new FormData(contactForm);
+  // TODO: brancher l'envoi du formulaire (appel API ou service d'envoi d'email)
+
+  successMsg.hidden = false;
+  contactForm.reset();
+});
+</script>
+</body>
+</html>

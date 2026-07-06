@@ -10,6 +10,7 @@ APPS_PATH = os.path.join(DASHBOARD_DIR, "apps.json")
 APPS_OUTPUT_PATH = os.path.join(DASHBOARD_DIR, "applications.html")
 HELP_PATH = os.path.join(DASHBOARD_DIR, "help.json")
 HELP_OUTPUT_PATH = os.path.join(DASHBOARD_DIR, "aide.html")
+CONTACT_OUTPUT_PATH = os.path.join(DASHBOARD_DIR, "contact.html")
 
 # Coûts approximatifs, en euros, pour 1 million de tokens de chaque catégorie.
 # Valeurs modifiables facilement.
@@ -110,6 +111,7 @@ __BACKGROUND__
     <a href="index.html" class="nav-link active">Dashboard usage</a>
     <a href="applications.html" class="nav-link">Mes applications</a>
     <a href="aide.html" class="nav-link">Centre d'aide</a>
+    <a href="contact.html" class="nav-link">Contact</a>
   </div>
   <h1>Dashboard Claude</h1>
   <div class="glass-card">
@@ -139,6 +141,7 @@ __BACKGROUND__
     <a href="index.html" class="nav-link active">Dashboard usage</a>
     <a href="applications.html" class="nav-link">Mes applications</a>
     <a href="aide.html" class="nav-link">Centre d'aide</a>
+    <a href="contact.html" class="nav-link">Contact</a>
   </div>
   <h1>Dashboard Claude</h1>
 
@@ -661,6 +664,7 @@ __BACKGROUND__
     <a href="index.html" class="nav-link">Dashboard usage</a>
     <a href="applications.html" class="nav-link active">Mes applications</a>
     <a href="aide.html" class="nav-link">Centre d'aide</a>
+    <a href="contact.html" class="nav-link">Contact</a>
   </div>
   <h1>Mes applications Claude Code</h1>
 
@@ -999,6 +1003,7 @@ __BACKGROUND__
     <a href="index.html" class="nav-link">Dashboard usage</a>
     <a href="applications.html" class="nav-link">Mes applications</a>
     <a href="aide.html" class="nav-link active">Centre d'aide</a>
+    <a href="contact.html" class="nav-link">Contact</a>
   </div>
   <h1>Centre d'aide</h1>
 
@@ -1180,6 +1185,207 @@ _HELP_CSS = """
 }
 """
 
+_CONTACT_TEMPLATE = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact</title>
+<style>
+__BASE_CSS__
+__CONTACT_CSS__
+</style>
+</head>
+<body>
+__BACKGROUND__
+<div class="app-shell">
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Dashboard usage</a>
+    <a href="applications.html" class="nav-link">Mes applications</a>
+    <a href="aide.html" class="nav-link">Centre d'aide</a>
+    <a href="contact.html" class="nav-link active">Contact</a>
+  </div>
+
+  <div class="glass-card contact-intro">
+    <h1>Une question, une idée ou un problème ?</h1>
+    <p class="contact-lead">Si vous rencontrez une difficulté, souhaitez proposer une amélioration ou avez simplement une question concernant le dashboard, n'hésitez pas à contacter le développeur. Vos retours sont précieux et permettent de faire évoluer l'application au fil des versions.</p>
+  </div>
+
+  <div class="glass-card">
+    <h2 class="section-title">Formulaire de contact</h2>
+    <form id="contact-form" class="contact-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="contact-nom">Nom</label>
+        <input class="form-input" type="text" id="contact-nom" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-email">Adresse e-mail</label>
+        <input class="form-input" type="email" id="contact-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-objet">Objet</label>
+        <input class="form-input" type="text" id="contact-objet" name="objet" required>
+        <ul class="form-examples">
+          <li>Demande d'assistance</li>
+          <li>Signaler un bug</li>
+          <li>Proposition d'amélioration</li>
+          <li>Nouvelle fonctionnalité</li>
+          <li>Autre</li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-message">Votre message</label>
+        <textarea class="form-textarea" id="contact-message" name="message" rows="6" required></textarea>
+        <p class="form-hint">Décrivez votre demande avec le plus de détails possible afin de faciliter son traitement.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contact-piece-jointe">Pièce jointe (facultatif)</label>
+        <input class="form-input form-file" type="file" id="contact-piece-jointe" name="piece_jointe">
+        <p class="form-hint">Ajoutez une capture d'écran ou un fichier si cela peut aider à comprendre votre demande.</p>
+      </div>
+      <button type="submit" class="btn-submit">📨 Envoyer le message</button>
+      <p id="contact-success" class="form-success" hidden>Votre message a bien été pris en compte. Merci !</p>
+    </form>
+  </div>
+
+  <div class="glass-card">
+    <h2 class="section-title">Avant de nous contacter</h2>
+    <p>Pensez à vérifier les informations suivantes :</p>
+    <ul class="info-list">
+      <li>Consultez la rubrique <a href="aide.html">Questions fréquentes</a> pour voir si la réponse s'y trouve déjà.</li>
+      <li>Si vous signalez un problème, indiquez les étapes permettant de le reproduire.</li>
+      <li>Si possible, joignez une capture d'écran du message d'erreur.</li>
+    </ul>
+    <p>Ces informations permettront de traiter votre demande plus rapidement.</p>
+  </div>
+
+  <div class="glass-card">
+    <h2 class="section-title">Merci pour votre contribution</h2>
+    <p>Chaque retour contribue à améliorer le dashboard et à le rendre plus simple, plus rapide et plus agréable à utiliser. Merci de prendre le temps de partager votre expérience.</p>
+  </div>
+
+  __FOOTNOTES__
+</div>
+
+<script>
+const contactForm = document.getElementById('contact-form');
+const successMsg = document.getElementById('contact-success');
+
+contactForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!contactForm.reportValidity()) return;
+
+  const formData = new FormData(contactForm);
+  // TODO: brancher l'envoi du formulaire (appel API ou service d'envoi d'email)
+
+  successMsg.hidden = false;
+  contactForm.reset();
+});
+</script>
+</body>
+</html>
+"""
+
+_CONTACT_CSS = """
+.contact-intro h1 {
+  color: #0f2d50;
+  text-shadow: none;
+  font-size: 1.5rem;
+  margin: 0 0 12px;
+}
+.contact-lead {
+  color: #1c2b3a;
+  line-height: 1.6;
+  margin: 0;
+}
+.section-title {
+  margin: 0 0 18px;
+  color: #0f2d50;
+  font-size: 1.2rem;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-weight: 600;
+  color: #0f2d50;
+}
+.form-input,
+.form-textarea {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 0.95rem;
+  color: #0f2d50;
+  font-family: inherit;
+}
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.form-file {
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+.form-examples {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  color: #2c4a68;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.form-hint {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: #2c4a68;
+}
+.btn-submit {
+  align-self: flex-start;
+  padding: 12px 28px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #ffb14d, #e2622a);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(226, 98, 42, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(226, 98, 42, 0.45);
+}
+.btn-submit:active {
+  transform: translateY(0);
+}
+.form-success {
+  margin: 0;
+  color: #0f2d50;
+  font-weight: 600;
+}
+.info-list {
+  margin: 10px 0;
+  padding-left: 20px;
+  color: #1c2b3a;
+  line-height: 1.6;
+}
+@media (max-width: 640px) {
+  .btn-submit {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+"""
+
 _BACKGROUND_SVG = """
 <div class="background">
   <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
@@ -1251,6 +1457,15 @@ def generate_help_html(categories):
     return html
 
 
+def generate_contact_html():
+    html = _CONTACT_TEMPLATE
+    html = html.replace("__BASE_CSS__", _BASE_CSS)
+    html = html.replace("__CONTACT_CSS__", _CONTACT_CSS)
+    html = html.replace("__BACKGROUND__", _BACKGROUND_SVG)
+    html = html.replace("__FOOTNOTES__", _FOOTNOTES_HTML)
+    return html
+
+
 def main():
     entries = load_entries()
     html = generate_html(entries)
@@ -1269,6 +1484,11 @@ def main():
     with open(HELP_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(help_html)
     print(f"aide.html généré ({len(help_categories)} catégorie(s)).")
+
+    contact_html = generate_contact_html()
+    with open(CONTACT_OUTPUT_PATH, "w", encoding="utf-8") as f:
+        f.write(contact_html)
+    print("contact.html généré.")
 
 
 if __name__ == "__main__":

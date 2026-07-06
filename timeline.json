@@ -94,14 +94,26 @@
   },
   {
     "date": "06/07/2026",
-    "time": "13:40",
+    "time": "13:45",
     "project": "dashboard",
     "action": "Création d'une page \"Centre d'Aide\"",
-    "tokens": 1498898,
-    "input_tokens": 30,
-    "output_tokens": 9606,
-    "cache_creation_tokens": 22493,
-    "cache_read_tokens": 1466769,
+    "tokens": 3016906,
+    "input_tokens": 56,
+    "output_tokens": 17281,
+    "cache_creation_tokens": 37430,
+    "cache_read_tokens": 2962139,
     "_init_key": "0f894f27-7224-4d2b-94cc-b12103c071df:2026-07-06T13:36:24"
+  },
+  {
+    "date": "06/07/2026",
+    "time": "14:14",
+    "project": "dashboard",
+    "action": "Création d'une page \"Centre d'Aide\"",
+    "tokens": 10143988,
+    "input_tokens": 129,
+    "output_tokens": 27123,
+    "cache_creation_tokens": 190798,
+    "cache_read_tokens": 9925938,
+    "_init_key": "0f894f27-7224-4d2b-94cc-b12103c071df:2026-07-06T13:45:59"
   }
 ]

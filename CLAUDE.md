@@ -16,6 +16,8 @@ Régénérer le dashboard et la page applications après une modification de `ti
 python generate_dashboard.py
 ```
 
+`load_entries()`/`load_apps()` avalent silencieusement toute erreur de lecture (JSON invalide, fichier absent) et retournent une liste vide — un `timeline.json`/`apps.json` corrompu produit donc un dashboard vide sans message d'erreur explicite (juste `(0 entrée(s))` en console). Vérifier la validité du JSON après une édition manuelle.
+
 ## Alimentation de timeline.json
 
 Un hook global (`~/.claude/hooks/log_init_complete.py`, déclenché sur `Stop` après un `/init`, hors de ce dépôt) alimente automatiquement `timeline.json` et régénère `index.html` en local — mais seulement pour les sessions `/init`. Il met à jour la même entrée au fil des tours d'un même `/init` (marqueur posé par `~/.claude/hooks/track_init_start.py`), et l'abandonne après 45 min d'inactivité.

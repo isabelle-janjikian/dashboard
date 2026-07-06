@@ -754,6 +754,7 @@ function openModal(app) {
     <span class="app-type-badge" style="background:${colorForApp(app)};">${app.type}</span>
     <p class="modal-description">${app.description}</p>
     <p class="modal-date">Réalisé le ${app.date}</p>
+    ${app.url ? `<a class="modal-link-btn" href="${app.url}" target="_blank" rel="noopener">Voir le site ↗</a>` : ''}
   `;
   modal.hidden = false;
 }
@@ -963,6 +964,23 @@ _APPS_CSS = """
   color: #2c4a68;
   font-size: 0.85rem;
   font-weight: 600;
+}
+.modal-link-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 9px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 45, 80, 0.15);
+  background: rgba(255, 255, 255, 0.7);
+  color: #0f2d50;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.modal-link-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 45, 80, 0.2);
 }
 @media (max-width: 640px) {
   .controls-row {

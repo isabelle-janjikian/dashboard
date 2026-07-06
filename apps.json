@@ -9,7 +9,8 @@
     "name": "dashboard",
     "type": "Outil",
     "description": "Dashboard glassmorphism qui visualise l'usage (tokens, coût estimé) des sessions Claude Code, par projet.",
-    "date": "05/07/2026"
+    "date": "05/07/2026",
+    "url": "https://dashboard-self-pi-59.vercel.app"
   },
   {
     "name": "automatisation-email-brouillon",

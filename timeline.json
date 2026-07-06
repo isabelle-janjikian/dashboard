@@ -60,7 +60,7 @@
     "date": "06/07/2026",
     "time": "01:25",
     "project": "automatisation-email-brouillon",
-    "action": "Initialisation du projet (/init, CLAUDE.md) : Ajoute l'entrée automatisation-email-brouillon au dashboard ; Ajoute automatisation-email-brouillon à la page applications",
+    "action": "Initialisation du projet (/init, CLAUDE.md) : Ajoute automatisation-email-brouillon au dashboard et à la page applications",
     "tokens": 5733315,
     "input_tokens": 92,
     "output_tokens": 33147,

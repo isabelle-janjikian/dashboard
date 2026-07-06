@@ -8,6 +8,8 @@ TIMELINE_PATH = os.path.join(DASHBOARD_DIR, "timeline.json")
 OUTPUT_PATH = os.path.join(DASHBOARD_DIR, "index.html")
 APPS_PATH = os.path.join(DASHBOARD_DIR, "apps.json")
 APPS_OUTPUT_PATH = os.path.join(DASHBOARD_DIR, "applications.html")
+HELP_PATH = os.path.join(DASHBOARD_DIR, "help.json")
+HELP_OUTPUT_PATH = os.path.join(DASHBOARD_DIR, "aide.html")
 
 # Coûts approximatifs, en euros, pour 1 million de tokens de chaque catégorie.
 # Valeurs modifiables facilement.
@@ -45,6 +47,20 @@ def load_apps():
     return data
 
 
+def load_help():
+    """Retourne la liste des catégories d'aide lues depuis help.json (liste vide si absent/invalide)."""
+    if not os.path.exists(HELP_PATH):
+        return []
+    try:
+        with open(HELP_PATH, "r", encoding="utf-8-sig") as f:
+            data = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return []
+    if not isinstance(data, list):
+        return []
+    return data
+
+
 def save_entries(entries):
     """Réécrit timeline.json avec la liste d'entrées donnée."""
     with open(TIMELINE_PATH, "w", encoding="utf-8") as f:
@@ -55,6 +71,12 @@ def save_apps(apps):
     """Réécrit apps.json avec la liste d'applications donnée."""
     with open(APPS_PATH, "w", encoding="utf-8") as f:
         json.dump(apps, f, ensure_ascii=False, indent=2)
+
+
+def save_help(categories):
+    """Réécrit help.json avec la liste de catégories donnée."""
+    with open(HELP_PATH, "w", encoding="utf-8") as f:
+        json.dump(categories, f, ensure_ascii=False, indent=2)
 
 
 def append_entry(entry):
@@ -87,6 +109,7 @@ __BACKGROUND__
   <div class="nav-links">
     <a href="index.html" class="nav-link active">Dashboard usage</a>
     <a href="applications.html" class="nav-link">Mes applications</a>
+    <a href="aide.html" class="nav-link">Centre d'aide</a>
   </div>
   <h1>Dashboard Claude</h1>
   <div class="glass-card">
@@ -115,6 +138,7 @@ __BACKGROUND__
   <div class="nav-links">
     <a href="index.html" class="nav-link active">Dashboard usage</a>
     <a href="applications.html" class="nav-link">Mes applications</a>
+    <a href="aide.html" class="nav-link">Centre d'aide</a>
   </div>
   <h1>Dashboard Claude</h1>
 
@@ -636,6 +660,7 @@ __BACKGROUND__
   <div class="nav-links">
     <a href="index.html" class="nav-link">Dashboard usage</a>
     <a href="applications.html" class="nav-link active">Mes applications</a>
+    <a href="aide.html" class="nav-link">Centre d'aide</a>
   </div>
   <h1>Mes applications Claude Code</h1>
 
@@ -956,6 +981,205 @@ _APPS_CSS = """
 }
 """
 
+_HELP_TEMPLATE = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centre d'aide</title>
+<style>
+__BASE_CSS__
+__HELP_CSS__
+</style>
+</head>
+<body>
+__BACKGROUND__
+<div class="app-shell">
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Dashboard usage</a>
+    <a href="applications.html" class="nav-link">Mes applications</a>
+    <a href="aide.html" class="nav-link active">Centre d'aide</a>
+  </div>
+  <h1>Centre d'aide</h1>
+
+  <div class="glass-card">
+    <div class="controls-row">
+      <div class="control-group">
+        <label for="help-category-filter">Catégorie</label>
+        <select id="help-category-filter" class="filter-select"></select>
+      </div>
+      <div class="control-group help-search-group">
+        <label for="help-search">Recherche</label>
+        <input type="search" id="help-search" class="filter-select help-search" placeholder="Rechercher une question...">
+      </div>
+    </div>
+  </div>
+
+  <div id="help-content"></div>
+  <p id="help-empty" class="empty-message" hidden>Aucune question ne correspond à cette recherche.</p>
+
+  __FOOTNOTES__
+</div>
+
+<script>
+const HELP = __HELP_JSON__;
+
+function distinctSorted(values) {
+  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b, 'fr'));
+}
+
+const categoryFilter = document.getElementById('help-category-filter');
+const searchInput = document.getElementById('help-search');
+const content = document.getElementById('help-content');
+const emptyMsg = document.getElementById('help-empty');
+
+function fillDropdown(select, values, allLabel) {
+  const optAll = document.createElement('option');
+  optAll.value = '__TOUS__';
+  optAll.textContent = allLabel;
+  select.appendChild(optAll);
+  values.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v;
+    select.appendChild(opt);
+  });
+  select.value = '__TOUS__';
+}
+
+fillDropdown(categoryFilter, distinctSorted(HELP.map(c => c.category)), 'Toutes les catégories');
+
+function renderHelp() {
+  const categorieVal = categoryFilter.value;
+  const recherche = searchInput.value.trim().toLowerCase();
+
+  const categories = HELP
+    .filter(c => categorieVal === '__TOUS__' || c.category === categorieVal)
+    .map(c => ({
+      category: c.category,
+      questions: c.questions.filter(item =>
+        !recherche ||
+        item.q.toLowerCase().includes(recherche) ||
+        item.a.toLowerCase().includes(recherche)
+      )
+    }))
+    .filter(c => c.questions.length > 0);
+
+  if (categories.length === 0) {
+    content.innerHTML = '';
+    emptyMsg.hidden = false;
+    return;
+  }
+  emptyMsg.hidden = true;
+
+  content.innerHTML = categories.map(c => `
+    <div class="glass-card help-category">
+      <h2 class="help-category-title">${c.category}</h2>
+      ${c.questions.map(item => `
+        <details class="faq-item">
+          <summary class="faq-question">${item.q}</summary>
+          <p class="faq-answer">${item.a}</p>
+        </details>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+categoryFilter.addEventListener('change', renderHelp);
+searchInput.addEventListener('input', renderHelp);
+
+renderHelp();
+</script>
+</body>
+</html>
+"""
+
+_HELP_CSS = """
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.control-group label {
+  font-weight: 600;
+  color: #0f2d50;
+}
+.filter-select {
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 0.95rem;
+  color: #0f2d50;
+  cursor: pointer;
+}
+.help-search-group {
+  flex: 1 1 220px;
+}
+.help-search {
+  width: 100%;
+  cursor: text;
+}
+.help-category-title {
+  margin: 0 0 14px;
+  color: #0f2d50;
+  font-size: 1.2rem;
+}
+.faq-item {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.faq-item:last-child {
+  margin-bottom: 0;
+}
+.faq-question {
+  cursor: pointer;
+  font-weight: 600;
+  color: #0f2d50;
+  list-style: none;
+}
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+.faq-question::before {
+  content: '+';
+  display: inline-block;
+  width: 1.1em;
+  color: #e2622a;
+  font-weight: 700;
+}
+.faq-item[open] .faq-question::before {
+  content: '−';
+}
+.faq-answer {
+  margin: 10px 0 2px;
+  color: #1c2b3a;
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .controls-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .control-group {
+    width: 100%;
+  }
+  .filter-select {
+    flex: 1;
+  }
+}
+"""
+
 _BACKGROUND_SVG = """
 <div class="background">
   <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
@@ -1017,6 +1241,16 @@ def generate_apps_html(apps):
     return html
 
 
+def generate_help_html(categories):
+    html = _HELP_TEMPLATE
+    html = html.replace("__BASE_CSS__", _BASE_CSS)
+    html = html.replace("__HELP_CSS__", _HELP_CSS)
+    html = html.replace("__BACKGROUND__", _BACKGROUND_SVG)
+    html = html.replace("__FOOTNOTES__", _FOOTNOTES_HTML)
+    html = html.replace("__HELP_JSON__", _embed_json(categories))
+    return html
+
+
 def main():
     entries = load_entries()
     html = generate_html(entries)
@@ -1029,6 +1263,12 @@ def main():
     with open(APPS_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(apps_html)
     print(f"applications.html généré ({len(apps)} application(s)).")
+
+    help_categories = load_help()
+    help_html = generate_help_html(help_categories)
+    with open(HELP_OUTPUT_PATH, "w", encoding="utf-8") as f:
+        f.write(help_html)
+    print(f"aide.html généré ({len(help_categories)} catégorie(s)).")
 
 
 if __name__ == "__main__":

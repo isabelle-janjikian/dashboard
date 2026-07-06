@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centre d'aide</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1c2b3a;
+  position: relative;
+  overflow-x: hidden;
+}
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(160deg, #5bc8f0 0%, #1f6fc2 100%);
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  filter: blur(2px);
+}
+.app-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 70px 80px;
+}
+h1 {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  font-size: 2rem;
+  margin-bottom: 24px;
+}
+.nav-links {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-link {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.15s ease;
+}
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.34);
+}
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f2d50;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(19px);
+  -webkit-backdrop-filter: blur(19px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 22px;
+  box-shadow: 0 12px 40px rgba(15, 45, 80, 0.25);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+}
+.empty-message {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin: 20px 0;
+}
+.app-credit {
+  position: fixed;
+  left: 16px;
+  bottom: 14px;
+  font-size: 0.7rem;
+  color: #ffffff;
+  opacity: 0.85;
+  z-index: 10;
+}
+.app-install-note {
+  position: fixed;
+  right: 16px;
+  bottom: 14px;
+  max-width: 240px;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-align: right;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 8px 12px;
+  z-index: 10;
+}
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 28px 16px 120px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .glass-card {
+    padding: 18px 16px;
+    border-radius: 18px;
+  }
+  .app-credit,
+  .app-install-note {
+    position: static;
+    max-width: 100%;
+    text-align: left;
+    margin: 10px 0 0;
+  }
+  .nav-link {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.control-group label {
+  font-weight: 600;
+  color: #0f2d50;
+}
+.filter-select {
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 0.95rem;
+  color: #0f2d50;
+  cursor: pointer;
+}
+.help-search-group {
+  flex: 1 1 220px;
+}
+.help-search {
+  width: 100%;
+  cursor: text;
+}
+.help-category-title {
+  margin: 0 0 14px;
+  color: #0f2d50;
+  font-size: 1.2rem;
+}
+.faq-item {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.faq-item:last-child {
+  margin-bottom: 0;
+}
+.faq-question {
+  cursor: pointer;
+  font-weight: 600;
+  color: #0f2d50;
+  list-style: none;
+}
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+.faq-question::before {
+  content: '+';
+  display: inline-block;
+  width: 1.1em;
+  color: #e2622a;
+  font-weight: 700;
+}
+.faq-item[open] .faq-question::before {
+  content: '−';
+}
+.faq-answer {
+  margin: 10px 0 2px;
+  color: #1c2b3a;
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .controls-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .control-group {
+    width: 100%;
+  }
+  .filter-select {
+    flex: 1;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="background">
+  <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="petal1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffe27a"/>
+        <stop offset="50%" stop-color="#ffb14d"/>
+        <stop offset="100%" stop-color="#e2622a"/>
+      </linearGradient>
+      <linearGradient id="petal2" x1="100%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#ffb14d"/>
+        <stop offset="100%" stop-color="#e2622a"/>
+      </linearGradient>
+    </defs>
+    <path d="M 1440 0 C 1100 100, 1000 350, 1250 550 C 1450 700, 1500 300, 1440 0 Z" fill="url(#petal1)" opacity="0.9"/>
+    <path d="M 0 900 C 250 750, 500 850, 450 650 C 400 450, 100 550, 0 900 Z" fill="url(#petal2)" opacity="0.92"/>
+    <path d="M 1440 900 C 1250 700, 950 800, 1050 650 C 1150 500, 1400 600, 1440 900 Z" fill="url(#petal1)" opacity="0.9"/>
+    <path d="M 0 0 C 150 200, 350 100, 250 -50 C 150 -150, -50 -100, 0 0 Z" fill="url(#petal2)" opacity="0.85"/>
+  </svg>
+</div>
+
+<div class="app-shell">
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Dashboard usage</a>
+    <a href="applications.html" class="nav-link">Mes applications</a>
+    <a href="aide.html" class="nav-link active">Centre d'aide</a>
+  </div>
+  <h1>Centre d'aide</h1>
+
+  <div class="glass-card">
+    <div class="controls-row">
+      <div class="control-group">
+        <label for="help-category-filter">Catégorie</label>
+        <select id="help-category-filter" class="filter-select"></select>
+      </div>
+      <div class="control-group help-search-group">
+        <label for="help-search">Recherche</label>
+        <input type="search" id="help-search" class="filter-select help-search" placeholder="Rechercher une question...">
+      </div>
+    </div>
+  </div>
+
+  <div id="help-content"></div>
+  <p id="help-empty" class="empty-message" hidden>Aucune question ne correspond à cette recherche.</p>
+
+  
+  <p class="app-credit">Réalisé par IsabelleWeb13@</p>
+  <p class="app-install-note">Cette application peut être installée chez vous : copiez le dossier de scripts (README + install + hooks + dashboard).</p>
+
+</div>
+
+<script>
+const HELP = [{"category": "Prise en main", "questions": [{"q": "Comment lire la page \"Dashboard usage\" ?", "a": "Le menu déroulant \"Projet\" en haut filtre tout le contenu de la page sur un seul projet (ou \"Tous les projets\"). En dessous, les cartes de résumé indiquent le nombre d'entrées, le nombre de projets, le total de tokens et le coût estimé. Le graphique en barres montre le total de tokens par jour. Enfin, la timeline liste chaque entrée par date puis par heure, avec une jauge visuelle proportionnelle au nombre de tokens."}, {"q": "Comment lire la page \"Mes applications\" ?", "a": "Chaque application réalisée avec Claude Code apparaît sous forme de carte (vignette, nom, type). Les menus déroulants \"Type\" et \"Projet\" filtrent la grille. Le bouton \"Détails\" sur une carte ouvre un popup avec la description complète et la date de réalisation. Les dépôts vides ou greenfield ne sont volontairement pas listés."}, {"q": "Comment naviguer entre les pages ?", "a": "La barre de liens en haut de chaque page (Dashboard usage / Mes applications / Centre d'aide) permet de passer de l'une à l'autre. Le lien de la page actuelle est mis en évidence."}]}, {"category": "FAQ", "questions": [{"q": "Pourquoi le coût affiché est-il une estimation ?", "a": "Le coût est calculé à partir de tarifs approximatifs par million de tokens (input, output, écriture cache, lecture cache), définis dans generate_dashboard.py. Le tarif réel facturé dépend du modèle utilisé et du ratio réel entre tokens d'entrée et de sortie, d'où la mention \"estimation approximative\" affichée sous les statistiques."}, {"q": "Un projet n'apparaît pas dans le filtre, pourquoi ?", "a": "Le menu \"Projet\" ne liste que les projets présents dans timeline.json. Si une session n'a pas encore été enregistrée (voir \"Comment timeline.json est-il alimenté ?\" dans Documentation technique), le projet correspondant n'apparaîtra pas encore."}, {"q": "Comment ajouter une nouvelle application à \"Mes applications\" ?", "a": "Ajoutez une entrée dans apps.json (name, type, description, date, et éventuellement image), puis régénérez les pages avec `python generate_dashboard.py`."}, {"q": "Comment ajouter une image à une application ?", "a": "Renseignez le champ optionnel \"image\" de l'entrée dans apps.json avec un chemin relatif ou une URL. Si l'image ne charge pas, un placeholder généré (dégradé de couleur + initiales du nom) reste affiché en secours sur la carte."}, {"q": "Que se passe-t-il si timeline.json ou apps.json est corrompu ?", "a": "load_entries() et load_apps() avalent silencieusement toute erreur de lecture (JSON invalide ou fichier absent) et retournent une liste vide. Le dashboard ou la page applications s'affiche alors vide, sans message d'erreur explicite — seul le compteur en console (ex: \"(0 entrée(s))\") le révèle. Vérifiez la validité du JSON après une édition manuelle."}]}, {"category": "Documentation technique", "questions": [{"q": "Comment régénérer les pages après une modification ?", "a": "Lancez `python generate_dashboard.py` depuis le dossier du dépôt. Le script lit timeline.json, apps.json et help.json, puis régénère index.html, applications.html et aide.html (pages autonomes, sans dépendance externe)."}, {"q": "Comment timeline.json est-il alimenté automatiquement ?", "a": "Un hook global (~/.claude/hooks/log_init_complete.py), déclenché sur Stop après un /init, alimente timeline.json et régénère index.html en local — uniquement pour les sessions /init. Il met à jour la même entrée au fil des tours d'un même /init, et l'abandonne après 45 min d'inactivité. En dehors de ce cas, l'alimentation reste manuelle (append_entry() ou édition directe du fichier)."}, {"q": "D'où vient le texte de l'action enregistrée pour une session /init ?", "a": "Par ordre de priorité : 1) l'intention déclarée par l'utilisateur, captée dès le premier message libre de la session par ~/.claude/hooks/save_session_intent.py ; 2) à défaut, les titres des commits git faits depuis le début du /init, juxtaposés avec « ; » ; 3) en dernier recours, le dernier message de l'assistant."}, {"q": "Où sont définis les tarifs utilisés pour le calcul du coût ?", "a": "En haut de generate_dashboard.py : COUT_INPUT_PAR_MILLION, COUT_OUTPUT_PAR_MILLION, COUT_CACHE_ECRITURE_PAR_MILLION et COUT_CACHE_LECTURE_PAR_MILLION, exprimés en euros pour 1 million de tokens de chaque catégorie. Ils sont facilement modifiables."}, {"q": "Comment déployer les changements en production ?", "a": "La régénération locale des pages HTML ne suffit pas à mettre à jour le site déployé. Il faut committer et pousser les changements sur master (pas de branches sur ce dépôt), puis redéployer manuellement avec `vercel --yes --scope isabelleweb13-gmailcoms-projects`."}]}, {"category": "Contact", "questions": [{"q": "Qui a réalisé ce dashboard ?", "a": "Ce dashboard a été réalisé par IsabelleWeb13@, comme mentionné en bas de chaque page."}, {"q": "Comment installer ce dashboard chez soi ?", "a": "Copiez le dossier de scripts complet (README, script d'installation, hooks et dashboard), comme indiqué dans la note affichée en bas à droite des pages."}]}];
+
+function distinctSorted(values) {
+  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b, 'fr'));
+}
+
+const categoryFilter = document.getElementById('help-category-filter');
+const searchInput = document.getElementById('help-search');
+const content = document.getElementById('help-content');
+const emptyMsg = document.getElementById('help-empty');
+
+function fillDropdown(select, values, allLabel) {
+  const optAll = document.createElement('option');
+  optAll.value = '__TOUS__';
+  optAll.textContent = allLabel;
+  select.appendChild(optAll);
+  values.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v;
+    select.appendChild(opt);
+  });
+  select.value = '__TOUS__';
+}
+
+fillDropdown(categoryFilter, distinctSorted(HELP.map(c => c.category)), 'Toutes les catégories');
+
+function renderHelp() {
+  const categorieVal = categoryFilter.value;
+  const recherche = searchInput.value.trim().toLowerCase();
+
+  const categories = HELP
+    .filter(c => categorieVal === '__TOUS__' || c.category === categorieVal)
+    .map(c => ({
+      category: c.category,
+      questions: c.questions.filter(item =>
+        !recherche ||
+        item.q.toLowerCase().includes(recherche) ||
+        item.a.toLowerCase().includes(recherche)
+      )
+    }))
+    .filter(c => c.questions.length > 0);
+
+  if (categories.length === 0) {
+    content.innerHTML = '';
+    emptyMsg.hidden = false;
+    return;
+  }
+  emptyMsg.hidden = true;
+
+  content.innerHTML = categories.map(c => `
+    <div class="glass-card help-category">
+      <h2 class="help-category-title">${c.category}</h2>
+      ${c.questions.map(item => `
+        <details class="faq-item">
+          <summary class="faq-question">${item.q}</summary>
+          <p class="faq-answer">${item.a}</p>
+        </details>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+categoryFilter.addEventListener('change', renderHelp);
+searchInput.addEventListener('input', renderHelp);
+
+renderHelp();
+</script>
+</body>
+</html>

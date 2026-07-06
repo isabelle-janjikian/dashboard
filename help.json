@@ -1,0 +1,82 @@
+[
+  {
+    "category": "Prise en main",
+    "questions": [
+      {
+        "q": "Comment lire la page \"Dashboard usage\" ?",
+        "a": "Le menu déroulant \"Projet\" en haut filtre tout le contenu de la page sur un seul projet (ou \"Tous les projets\"). En dessous, les cartes de résumé indiquent le nombre d'entrées, le nombre de projets, le total de tokens et le coût estimé. Le graphique en barres montre le total de tokens par jour. Enfin, la timeline liste chaque entrée par date puis par heure, avec une jauge visuelle proportionnelle au nombre de tokens."
+      },
+      {
+        "q": "Comment lire la page \"Mes applications\" ?",
+        "a": "Chaque application réalisée avec Claude Code apparaît sous forme de carte (vignette, nom, type). Les menus déroulants \"Type\" et \"Projet\" filtrent la grille. Le bouton \"Détails\" sur une carte ouvre un popup avec la description complète et la date de réalisation. Les dépôts vides ou greenfield ne sont volontairement pas listés."
+      },
+      {
+        "q": "Comment naviguer entre les pages ?",
+        "a": "La barre de liens en haut de chaque page (Dashboard usage / Mes applications / Centre d'aide) permet de passer de l'une à l'autre. Le lien de la page actuelle est mis en évidence."
+      }
+    ]
+  },
+  {
+    "category": "FAQ",
+    "questions": [
+      {
+        "q": "Pourquoi le coût affiché est-il une estimation ?",
+        "a": "Le coût est calculé à partir de tarifs approximatifs par million de tokens (input, output, écriture cache, lecture cache), définis dans generate_dashboard.py. Le tarif réel facturé dépend du modèle utilisé et du ratio réel entre tokens d'entrée et de sortie, d'où la mention \"estimation approximative\" affichée sous les statistiques."
+      },
+      {
+        "q": "Un projet n'apparaît pas dans le filtre, pourquoi ?",
+        "a": "Le menu \"Projet\" ne liste que les projets présents dans timeline.json. Si une session n'a pas encore été enregistrée (voir \"Comment timeline.json est-il alimenté ?\" dans Documentation technique), le projet correspondant n'apparaîtra pas encore."
+      },
+      {
+        "q": "Comment ajouter une nouvelle application à \"Mes applications\" ?",
+        "a": "Ajoutez une entrée dans apps.json (name, type, description, date, et éventuellement image), puis régénérez les pages avec `python generate_dashboard.py`."
+      },
+      {
+        "q": "Comment ajouter une image à une application ?",
+        "a": "Renseignez le champ optionnel \"image\" de l'entrée dans apps.json avec un chemin relatif ou une URL. Si l'image ne charge pas, un placeholder généré (dégradé de couleur + initiales du nom) reste affiché en secours sur la carte."
+      },
+      {
+        "q": "Que se passe-t-il si timeline.json ou apps.json est corrompu ?",
+        "a": "load_entries() et load_apps() avalent silencieusement toute erreur de lecture (JSON invalide ou fichier absent) et retournent une liste vide. Le dashboard ou la page applications s'affiche alors vide, sans message d'erreur explicite — seul le compteur en console (ex: \"(0 entrée(s))\") le révèle. Vérifiez la validité du JSON après une édition manuelle."
+      }
+    ]
+  },
+  {
+    "category": "Documentation technique",
+    "questions": [
+      {
+        "q": "Comment régénérer les pages après une modification ?",
+        "a": "Lancez `python generate_dashboard.py` depuis le dossier du dépôt. Le script lit timeline.json, apps.json et help.json, puis régénère index.html, applications.html et aide.html (pages autonomes, sans dépendance externe)."
+      },
+      {
+        "q": "Comment timeline.json est-il alimenté automatiquement ?",
+        "a": "Un hook global (~/.claude/hooks/log_init_complete.py), déclenché sur Stop après un /init, alimente timeline.json et régénère index.html en local — uniquement pour les sessions /init. Il met à jour la même entrée au fil des tours d'un même /init, et l'abandonne après 45 min d'inactivité. En dehors de ce cas, l'alimentation reste manuelle (append_entry() ou édition directe du fichier)."
+      },
+      {
+        "q": "D'où vient le texte de l'action enregistrée pour une session /init ?",
+        "a": "Par ordre de priorité : 1) l'intention déclarée par l'utilisateur, captée dès le premier message libre de la session par ~/.claude/hooks/save_session_intent.py ; 2) à défaut, les titres des commits git faits depuis le début du /init, juxtaposés avec « ; » ; 3) en dernier recours, le dernier message de l'assistant."
+      },
+      {
+        "q": "Où sont définis les tarifs utilisés pour le calcul du coût ?",
+        "a": "En haut de generate_dashboard.py : COUT_INPUT_PAR_MILLION, COUT_OUTPUT_PAR_MILLION, COUT_CACHE_ECRITURE_PAR_MILLION et COUT_CACHE_LECTURE_PAR_MILLION, exprimés en euros pour 1 million de tokens de chaque catégorie. Ils sont facilement modifiables."
+      },
+      {
+        "q": "Comment déployer les changements en production ?",
+        "a": "La régénération locale des pages HTML ne suffit pas à mettre à jour le site déployé. Il faut committer et pousser les changements sur master (pas de branches sur ce dépôt), puis redéployer manuellement avec `vercel --yes --scope isabelleweb13-gmailcoms-projects`."
+      }
+    ]
+  },
+  {
+    "category": "Contact",
+    "questions": [
+      {
+        "q": "Qui a réalisé ce dashboard ?",
+        "a": "Ce dashboard a été réalisé par IsabelleWeb13@, comme mentionné en bas de chaque page."
+      },
+      {
+        "q": "Comment installer ce dashboard chez soi ?",
+        "a": "Copiez le dossier de scripts complet (README, script d'installation, hooks et dashboard), comme indiqué dans la note affichée en bas à droite des pages."
+      }
+    ]
+  }
+]

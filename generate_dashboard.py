@@ -1213,7 +1213,8 @@ __BACKGROUND__
 
   <div class="glass-card">
     <h2 class="section-title">Formulaire de contact</h2>
-    <form id="contact-form" class="contact-form" novalidate>
+    <form id="contact-form" class="contact-form" action="https://formspree.io/f/xnjkrakl" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="Message via Dashboard Claude">
       <div class="form-group">
         <label class="form-label" for="contact-nom">Nom</label>
         <input class="form-input" type="text" id="contact-nom" name="nom" required>
@@ -1224,14 +1225,14 @@ __BACKGROUND__
       </div>
       <div class="form-group">
         <label class="form-label" for="contact-objet">Objet</label>
-        <input class="form-input" type="text" id="contact-objet" name="objet" required>
-        <ul class="form-examples">
-          <li>Demande d'assistance</li>
-          <li>Signaler un bug</li>
-          <li>Proposition d'amélioration</li>
-          <li>Nouvelle fonctionnalité</li>
-          <li>Autre</li>
-        </ul>
+        <select class="form-input form-select" id="contact-objet" name="objet" required>
+          <option value="" disabled selected>Choisissez un objet</option>
+          <option value="Demande d'assistance">Demande d'assistance</option>
+          <option value="Signaler un bug">Signaler un bug</option>
+          <option value="Proposition d'amélioration">Proposition d'amélioration</option>
+          <option value="Nouvelle fonctionnalité">Nouvelle fonctionnalité</option>
+          <option value="Autre">Autre</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="form-label" for="contact-message">Votre message</label>
@@ -1244,7 +1245,8 @@ __BACKGROUND__
         <p class="form-hint">Ajoutez une capture d'écran ou un fichier si cela peut aider à comprendre votre demande.</p>
       </div>
       <button type="submit" class="btn-submit">📨 Envoyer le message</button>
-      <p id="contact-success" class="form-success" hidden>Votre message a bien été pris en compte. Merci !</p>
+      <p id="contact-success" class="form-success" hidden>Votre message a bien été envoyé. Merci !</p>
+      <p id="contact-error" class="form-error" hidden>Une erreur est survenue lors de l'envoi. Merci de réessayer ou de vérifier votre connexion.</p>
     </form>
   </div>
 
@@ -1270,16 +1272,35 @@ __BACKGROUND__
 <script>
 const contactForm = document.getElementById('contact-form');
 const successMsg = document.getElementById('contact-success');
+const errorMsg = document.getElementById('contact-error');
+const submitBtn = contactForm.querySelector('.btn-submit');
 
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!contactForm.reportValidity()) return;
 
-  const formData = new FormData(contactForm);
-  // TODO: brancher l'envoi du formulaire (appel API ou service d'envoi d'email)
+  successMsg.hidden = true;
+  errorMsg.hidden = true;
+  submitBtn.disabled = true;
 
-  successMsg.hidden = false;
-  contactForm.reset();
+  try {
+    const response = await fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      successMsg.hidden = false;
+      contactForm.reset();
+    } else {
+      errorMsg.hidden = false;
+    }
+  } catch (err) {
+    errorMsg.hidden = false;
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
 </script>
 </body>
@@ -1335,12 +1356,8 @@ _CONTACT_CSS = """
   background: rgba(255, 255, 255, 0.4);
   cursor: pointer;
 }
-.form-examples {
-  margin: 4px 0 0;
-  padding-left: 20px;
-  color: #2c4a68;
-  font-size: 0.85rem;
-  line-height: 1.6;
+.form-select {
+  cursor: pointer;
 }
 .form-hint {
   margin: 2px 0 0;
@@ -1367,9 +1384,19 @@ _CONTACT_CSS = """
 .btn-submit:active {
   transform: translateY(0);
 }
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 .form-success {
   margin: 0;
   color: #0f2d50;
+  font-weight: 600;
+}
+.form-error {
+  margin: 0;
+  color: #a3271f;
   font-weight: 600;
 }
 .info-list {
